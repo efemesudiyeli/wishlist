@@ -12,14 +12,8 @@ export default async function WishlistPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const userData = await getCurrentUser();
-
-  if (!userData) {
-    redirect("/login");
-  }
-
+  
   const wishlist = await getWishlist(id);
-  const items = await getItems(id);
 
   if (!wishlist) {
     return (
@@ -35,7 +29,10 @@ export default async function WishlistPage({
     );
   }
 
-  if (wishlist.user_id !== userData.user.id && !wishlist.is_public) {
+  const userData = await getCurrentUser();
+  const isOwner = !!(userData && wishlist.user_id === userData.user.id);
+
+  if (!wishlist.is_public && !isOwner) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(to bottom, #FFF9F0, #FFF5E6)' }}>
         <div className="text-center">
@@ -48,6 +45,8 @@ export default async function WishlistPage({
       </div>
     );
   }
+
+  const items = await getItems(id);
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(to bottom, #FFF9F0, #FFF5E6)' }}>
@@ -77,7 +76,7 @@ export default async function WishlistPage({
             </div>
             <div className="flex items-center gap-3">
               <ShareButton wishlistId={id} />
-              {wishlist.user_id === userData.user.id && (
+              {isOwner && (
                 <>
                   <Link
                     href={`/wishlist/${id}/settings`}
@@ -96,7 +95,7 @@ export default async function WishlistPage({
             </div>
           </div>
         </div>
-        <ItemList items={items} listId={id} isOwner={wishlist.user_id === userData.user.id} />
+        <ItemList items={items} listId={id} isOwner={isOwner} />
       </div>
     </div>
   );
