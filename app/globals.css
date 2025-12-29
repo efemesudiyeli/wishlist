@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gift-red: #FF6B9D;
+  --gift-red-light: #FFB3BA;
+  --gift-gold: #FFD93D;
+  --gift-gold-light: #FFE66D;
+  --gift-green: #A8E6CF;
+  --gift-green-light: #C5E1A5;
+  --gift-cream: #FFF9F0;
+  --gift-cream-light: #FFF5E6;
+  --gift-brown: #8B6F47;
+  --gift-brown-light: #A68B5B;
+  --background: var(--gift-cream);
+  --foreground: var(--gift-brown);
 }
 
 @theme inline {
@@ -10,17 +20,126 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-gift-red: var(--gift-red);
+  --color-gift-red-light: var(--gift-red-light);
+  --color-gift-gold: var(--gift-gold);
+  --color-gift-gold-light: var(--gift-gold-light);
+  --color-gift-green: var(--gift-green);
+  --color-gift-green-light: var(--gift-green-light);
+  --color-gift-cream: var(--gift-cream);
+  --color-gift-cream-light: var(--gift-cream-light);
+  --color-gift-brown: var(--gift-brown);
+  --color-gift-brown-light: var(--gift-brown-light);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@keyframes giftFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes giftShake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes ribbonWave {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.1);
+  }
+}
+
+.gift-card {
+  transition: all 0.3s ease;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(139, 111, 71, 0.1);
+}
+
+.gift-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(139, 111, 71, 0.2);
+}
+
+.gift-button {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.gift-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.gift-button:active {
+  transform: scale(0.98);
+}
+
+.gift-input {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.gift-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.2);
+}
+
+.gift-ribbon {
+  position: relative;
+  overflow: hidden;
+}
+
+.gift-ribbon::before {
+  content: "🎀";
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 20px;
+  animation: giftFloat 2s ease-in-out infinite;
+}
+
+.drag-handle {
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.drag-handle:hover {
+  transform: scale(1.05);
+}
+
+.nav-link-profile:hover {
+  background: rgba(255, 217, 61, 0.3) !important;
+}
+
+.nav-link-logout:hover {
+  background: rgba(255, 107, 157, 0.3) !important;
+}
+
+.nav-link-login:hover {
+  background: rgba(168, 230, 207, 0.4) !important;
 }
